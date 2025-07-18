@@ -5,18 +5,40 @@ export const cards: CardType[] = [
     id: 0,
     emoji: "😀",
     name: "Smile",
-    indices: [],
   },
   {
     id: 1,
     emoji: "☹️",
     name: "Frown",
-    indices: [],
   },
   {
     id: 2,
     emoji: "😆",
     name: "Laugh",
-    indices: [],
+  },
+  {
+    id: 4,
+    emoji: "😡",
+    name: "Mad",
+  },
+  {
+    id: 3,
+    emoji: "🤡",
+    name: "Clown",
+  },
+  {
+    id: 5,
+    emoji: "😇",
+    name: "Innocent",
+  },
+  {
+    id: 6,
+    emoji: "🤩",
+    name: "Star struck face",
+  },
+  {
+    id: 7,
+    emoji: "🤑",
+    name: "Money",
   },
 ];
