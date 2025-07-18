@@ -1,5 +1,15 @@
+import { Board } from "./components";
+import { cards } from "./utilities";
+
+// function generateIndices(): [number, number] {
+
+//   return [-1, -1];
+// }
+
 export default function App() {
   return (
-    <div className="bg-zinc-900 text-zinc-100">App</div>
-  )
+    <>
+      <Board cards={cards} />
+    </>
+  );
 }
