@@ -1,3 +1,3 @@
-import { idImgMap } from "./idToImage";
-import { cards } from "./indexToCards";
-export { idImgMap, cards };
+import { idToEmoji } from "./indexToCards";
+
+export { idToEmoji };

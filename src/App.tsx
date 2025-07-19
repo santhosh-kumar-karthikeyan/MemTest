@@ -1,5 +1,5 @@
 import { Board } from "./components";
-import { cards } from "./utilities";
+import { idToEmoji } from "./utilities";
 
 // function generateIndices(): [number, number] {
 
@@ -9,7 +9,7 @@ import { cards } from "./utilities";
 export default function App() {
   return (
     <>
-      <Board cards={cards} />
+      <Board cards={idToEmoji } />
     </>
   );
 }

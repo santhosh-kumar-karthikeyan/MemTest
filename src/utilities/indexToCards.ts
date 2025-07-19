@@ -1,6 +1,6 @@
 import type { CardType } from "../types";
 
-export const cards: CardType[] = [
+export const idToEmoji: CardType[] = [
   {
     id: 0,
     emoji: "😀",
@@ -22,7 +22,7 @@ export const cards: CardType[] = [
     name: "Mad",
   },
   {
-    id: 3,
+    id: 8,
     emoji: "🤡",
     name: "Clown",
   },
