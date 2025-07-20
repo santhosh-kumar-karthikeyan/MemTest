@@ -6,11 +6,13 @@ export default function Card({
   cardOpen,
   idx,
   openCards,
+  foundCards,
 }: {
   card: CardType;
   cardOpen: (idx: number) => void;
   idx: number;
   openCards: number[];
+  foundCards: number[];
 }) {
   function handleClick(currIdx: number) {
     if (!openCards.includes(currIdx)) {
@@ -29,8 +31,10 @@ export default function Card({
           </section>
           <p>{card.name}</p>
         </>
+      ) : !foundCards.includes(card.id) ? (
+        <section> Click to reveal</section>
       ) : (
-        <section>Click to reveal</section>
+        <section>Found</section>
       )}
     </main>
   );

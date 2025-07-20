@@ -2,6 +2,7 @@ import type { CardType } from "../types";
 import { Card } from "../components";
 import { useEffect, useState } from "react";
 import { RiTimerFlashFill } from "react-icons/ri";
+import { IoMdCloseCircle } from "react-icons/io";
 
 function getShuffledIndices(numSlots: number): number[] {
   const arr: number[] = [];
@@ -14,19 +15,18 @@ function getShuffledIndices(numSlots: number): number[] {
 }
 
 export default function Board({ cards }: { cards: CardType[] }) {
+  const totalPossibleMisses: number = 5;
   const [openCards, setOpenCards] = useState<number[]>([]);
   const [cardLocations, setCardLocations] = useState<number[]>([]);
   const [time, setTime] = useState<number>(60);
   const [foundCards, setFoundCards] = useState<number[]>([]);
-  const [score, setScore] = useState<number>(0);
+  const [stats, setStats] = useState<{ score: number; misses: number }>({
+    score: 0,
+    misses: 5,
+  });
   const numSlots: number = 16;
   function cardOpen(idx: number) {
     if (openCards.length >= 2) {
-      if (
-        cards[cardLocations[openCards[0]]].id ===
-        cards[cardLocations[openCards[1]]].id
-      )
-        setScore((score) => score + 12.5);
       setOpenCards([idx]);
     } else {
       setOpenCards((curr) => [...curr, idx]);
@@ -40,11 +40,40 @@ export default function Board({ cards }: { cards: CardType[] }) {
       cardOpen={cardOpen}
       idx={idx}
       openCards={openCards}
+      foundCards={foundCards}
     />
   ));
-  useEffect(() => console.log(openCards), [openCards]);
+  useEffect(() => {
+    if (openCards.length >= 2) {
+      if (
+        cards[cardLocations[openCards[0]]].id ===
+        cards[cardLocations[openCards[1]]].id
+      ) {
+        setStats((stats) => ({ ...stats, score: stats.score + 10 }));
+        setFoundCards((currCards) => [
+          ...currCards,
+          cards[cardLocations[openCards[0]]].id,
+        ]);
+      } else setStats((stats) => ({ ...stats, misses: stats.misses + 1 }));
+    }
+  }, [cards, cardLocations, openCards]);
   return (
     <main className="flex flex-col items-around">
+      {stats.misses >= 5 && (
+        <main className="absolute w-screen bg-zinc-100/80 h-screen flex justify-center items-center">
+          <section className="flex flex-col justify-center items-center gap-10 h-auto border border-amber-900 border-2 p-30 rounded-xl bg-amber-100/40">
+            <button className="cursor-pointer flex justify-end items-center w-full active:scale-90">
+              <IoMdCloseCircle size={"40px"} />
+            </button>
+            <section className="flex flex-col justify-center gap-10">
+              <h1 className="text-6xl">You lost</h1>
+              <button className="cursor-pointer hover:scale-110 transition-all bg-amber-900 rounded-md p-5 text-xl text-zinc-100 active:scale-90">
+                Retry
+              </button>
+            </section>
+          </section>
+        </main>
+      )}
       {cards.map((card) => card.id)}
       <br />
       {openCards.join(",")}
@@ -52,11 +81,14 @@ export default function Board({ cards }: { cards: CardType[] }) {
         <h4 className="text-4xl flex justify-center items-center space-5">
           <RiTimerFlashFill /> Time left: {time}
         </h4>
-        <p className="text-xl">Score: {score}</p>
+        <p className="text-xl">Score: {stats.score}</p>
       </header>
       <section className="grid md:grid-cols-8 grid-rows-2 gap-10 m-5 self-center">
         {cardList}
       </section>
+      <footer className="bg-zinc-300/30 border border-zinc-900 p-5 m-5 rounded-sm flex justify-around items-center">
+        Misses: {stats.misses} / {totalPossibleMisses}
+      </footer>
     </main>
   );
 }
