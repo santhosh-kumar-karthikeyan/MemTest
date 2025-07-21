@@ -27,6 +27,7 @@ export default function Board({ cards }: { cards: CardType[] }) {
   });
   const numSlots: number = 16;
   function cardOpen(idx: number) {
+    if (foundCards.includes(cards[cardLocations[idx]].id)) return;
     if (openCards.length >= 2) {
       setOpenCards([idx]);
     } else {
@@ -65,7 +66,7 @@ export default function Board({ cards }: { cards: CardType[] }) {
   }, [cards, cardLocations, openCards]);
   return (
     <main className="flex flex-col items-around">
-      {stats.misses >= 5 && (
+      {(stats.misses >= 5 || time <= 0) && (
         <main className="absolute w-screen bg-zinc-100/80 h-screen flex justify-center items-center">
           <section className="flex flex-col justify-center items-center gap-10 h-auto border border-amber-900 border-2 p-30 rounded-xl bg-amber-100/40">
             <button className="cursor-pointer flex justify-end items-center w-full active:scale-95 ml-30">
@@ -73,8 +74,9 @@ export default function Board({ cards }: { cards: CardType[] }) {
                 <IoMdCloseCircle size={"40px"} />
               </Link>
             </button>
-            <section className="flex flex-col justify-center gap-10">
+            <section className="flex flex-col justify-center items-center gap-10">
               <h1 className="text-6xl">You lost</h1>
+              <h2 className="text-2xl">Your final score is: {stats.score}</h2>
               <button className="cursor-pointer hover:scale-110 transition-all bg-amber-900 rounded-md p-5 text-xl text-zinc-100 active:scale-90">
                 Retry
               </button>
