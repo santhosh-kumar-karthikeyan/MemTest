@@ -3,6 +3,7 @@ import { Card } from "../components";
 import { useEffect, useState } from "react";
 import { RiTimerFlashFill } from "react-icons/ri";
 import { IoMdCloseCircle } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 function getShuffledIndices(numSlots: number): number[] {
   const arr: number[] = [];
@@ -22,7 +23,7 @@ export default function Board({ cards }: { cards: CardType[] }) {
   const [foundCards, setFoundCards] = useState<number[]>([]);
   const [stats, setStats] = useState<{ score: number; misses: number }>({
     score: 0,
-    misses: 5,
+    misses: 0,
   });
   const numSlots: number = 16;
   function cardOpen(idx: number) {
@@ -32,6 +33,11 @@ export default function Board({ cards }: { cards: CardType[] }) {
       setOpenCards((curr) => [...curr, idx]);
     }
   }
+  useEffect(() => {
+    if (time <= 0) return;
+    const interval = setTimeout(() => setTime((prev) => prev - 1), 1000);
+    return () => clearTimeout(interval);
+  }, [time]);
   useEffect(() => setCardLocations(getShuffledIndices(numSlots)), []);
   const cardList = cardLocations.map((id, idx) => (
     <Card
@@ -62,8 +68,10 @@ export default function Board({ cards }: { cards: CardType[] }) {
       {stats.misses >= 5 && (
         <main className="absolute w-screen bg-zinc-100/80 h-screen flex justify-center items-center">
           <section className="flex flex-col justify-center items-center gap-10 h-auto border border-amber-900 border-2 p-30 rounded-xl bg-amber-100/40">
-            <button className="cursor-pointer flex justify-end items-center w-full active:scale-90">
-              <IoMdCloseCircle size={"40px"} />
+            <button className="cursor-pointer flex justify-end items-center w-full active:scale-95 ml-30">
+              <Link to="/">
+                <IoMdCloseCircle size={"40px"} />
+              </Link>
             </button>
             <section className="flex flex-col justify-center gap-10">
               <h1 className="text-6xl">You lost</h1>
