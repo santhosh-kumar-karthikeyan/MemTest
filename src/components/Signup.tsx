@@ -1,9 +1,19 @@
 import { useState } from "react";
+import { signIn, signUp } from "../utilities";
 
 export default function Signup() {
   const [firstVisit, setFirstVisit] = useState<boolean>(true);
   function toggleFirstVisit() {
     setFirstVisit((visit) => !visit);
+  }
+  function authenticate(formData) {
+    if (firstVisit)
+      signUp(
+        formData.get("email"),
+        formData.get("username"),
+        formData.get("password")
+      );
+    else signIn(formData.get("email"), formData.get("password"));
   }
   return (
     <main className="absolute w-screen h-screen flex flex-col justify-center items-center p-5 ">
@@ -11,19 +21,23 @@ export default function Signup() {
         <header className="flex justify-center items-center gap-5 rounded-sm p-2">
           <section className="bg-zinc-200 p-x-2 rounded-xl">
             <button
-              className={`${firstVisit && "bg-sky-600 text-sky-100"} rounded-xl p-3 hover:scale-110 active:scale-95`}
+              className={`${
+                firstVisit && "bg-sky-600 text-sky-100"
+              } rounded-xl p-3 hover:scale-110 active:scale-95`}
               onClick={toggleFirstVisit}>
               Signup
             </button>
             <button
-              className={`${!firstVisit && "bg-sky-600 text-sky-100"} rounded-xl p-3 hover:scale-110 active:scale-95`}
+              className={`${
+                !firstVisit && "bg-sky-600 text-sky-100"
+              } rounded-xl p-3 hover:scale-110 active:scale-95`}
               onClick={toggleFirstVisit}>
               Signin
             </button>
           </section>
         </header>
         <form
-          action=""
+          action={authenticate}
           className="flex flex-col justify-center gap-3 bg-zinc-100 p-3">
           <fieldset className="flex flex-col justify-center gap-5  p-3 rounded-xl">
             <legend>Email</legend>
@@ -70,10 +84,10 @@ export default function Signup() {
             </fieldset>
           )}
           <section className="flex items-center justify-center w-full space-x-10">
-            <button className="bg-zinc-900 rounded-md text-zinc-100 p-3">
+            <button className="bg-zinc-800 rounded-md text-zinc-100 p-3 hover:scale-105 hover:bg-zinc-900">
               {firstVisit ? "Signup" : "Login"}
             </button>
-            <button className="bg-blue-500/90 rounded-md text-zinc-100 p-3">
+            <button className="bg-sky-600 rounded-md text-zinc-100 p-3 hover:scale-105 hover:bg-sky-700">
               {firstVisit ? "Signup with Google" : "Login with Google"}
             </button>
           </section>
