@@ -1,5 +1,7 @@
 export default function Signin() {
   return (
-    <div>Signin</div>
+    <main className="flex flex-col bg-gray-200 justify-center items-center">
+      Signin
+    </main>
   )
 }

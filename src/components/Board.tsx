@@ -2,13 +2,11 @@ import type { CardType } from "../types";
 import { Card } from "../components";
 import { useEffect, useState, useCallback } from "react";
 import { RiTimerFlashFill } from "react-icons/ri";
-import { IoMdCloseCircle } from "react-icons/io";
-import { Link } from "react-router-dom";
 
 const GAME_CONFIG = {
   SLOTS: 16,
   INITIAL_TIME: 60,
-  MAX_MISSES: 5,
+  MAX_MISSES: 10,
   POINTS_PER_MATCH: 10,
   CARD_REVEAL_DELAY: 1000,
 } as const;
@@ -41,11 +39,6 @@ function GameOverModal({
   return (
     <main className="absolute w-screen bg-zinc-100/80 h-screen flex justify-center items-center z-50">
       <section className="flex flex-col justify-center items-center gap-10 h-auto border border-amber-900 border-2 p-8 rounded-xl bg-amber-100/90 shadow-lg">
-        <button className="cursor-pointer flex justify-end items-center w-full active:scale-95 self-end">
-          <Link to="/">
-            <IoMdCloseCircle size="40px" />
-          </Link>
-        </button>
         <section className="flex flex-col justify-center items-center gap-6">
           <h1
             className={`text-6xl ${isWon ? "text-green-600" : "text-red-600"}`}>
